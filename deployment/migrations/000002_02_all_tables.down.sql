@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS game;
+
+DROP TABLE IF EXISTS developer;
+
+DROP TABLE IF EXISTS console;
+
+DROP TABLE IF EXISTS producer;
