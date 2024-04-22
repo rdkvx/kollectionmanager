@@ -1,11 +1,11 @@
 package models
 
 import (
-    "time"
+	"time"
 )
 
 type Manufacturer struct {
-	id string `json:"id", omitempty`
-	name string `json:"name", omitempty`
-	founded time.time `json:"founded", omitempty`
+	Id      string    `json:"id", omitempty`
+	Name    string    `json:"name", omitempty`
+	Founded time.Time `json:"founded", omitempty`
 }

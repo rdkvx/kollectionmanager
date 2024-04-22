@@ -1,35 +1,31 @@
 CREATE TABLE IF NOT EXISTS producer(
-    id SERIAL PRIMARY KEY AUTOINCREMENT,
-    name varchar(100) not null,
-    openDate date not null,
-    PRIMARY KEY(id)
+    id SERIAL PRIMARY KEY,
+    name varchar(100) UNIQUE,
+    openDate date UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS console(
-    id SERIAL PRIMARY KEY AUTOINCREMENT,
-    name varchar(100) not null,
-    producerId bigint not null,
+    id SERIAL PRIMARY KEY,
+    name varchar(100) UNIQUE,
+    producerId bigint UNIQUE,
     releaseDate date,
     buyDate date,
-    own tinyint,
-    PRIMARY KEY(id),
+    own BOOLEAN,
     FOREIGN KEY(producerId) REFERENCES producer(id)
 );
 
 CREATE TABLE IF NOT EXISTS developer(
-    id SERIAL PRIMARY KEY AUTOINCREMENT,
-    name varchar(100) not null,
-    PRIMARY KEY(id)
+    id SERIAL PRIMARY KEY,
+    name varchar(100) UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS game(
-    id SERIAL PRIMARY KEY AUTOINCREMENT,
-    name varchar(100) not null,
-    consoleId bigint not null,
-    developerId bigint not null,
+    id SERIAL PRIMARY KEY,
+    name varchar(100) UNIQUE,
+    consoleId bigint UNIQUE,
+    developerId bigint UNIQUE,
     releaseDate date,
     buyDate date,
-    PRIMARY KEY(id),
     FOREIGN KEY(consoleId) REFERENCES console(id),
     FOREIGN KEY(developerId) REFERENCES developer(id)
 );
