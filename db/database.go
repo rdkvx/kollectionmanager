@@ -26,6 +26,7 @@ func Connect() error {
 		panic(err)
 	}
 
+	// boas vindas
 	fmt.Println("Conexão com o banco de dados estabelecida com sucesso!")
 
 	return nil
