@@ -1,7 +1,21 @@
 package routes
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"kollectionmanager/m/controllers"
 
-func AddConsoleRoutes(router *fiber.Ctx) {
-	router.Get("/", )
+	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
+)
+
+func ConsoleRoutes(app *fiber.App, db *gorm.DB) {
+	consolesroute := app.Group("/consoles")
+
+	consolesroute.Get("/", func(c *fiber.Ctx) error {
+		consoles, err := controllers.GetConsoles(c, db)
+		if err != nil {
+            return c.SendStatus(500)
+        }
+
+		return c.JSON(consoles)
+	})
 }
