@@ -1,12 +1,18 @@
 package models
 
-import "time"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type Console struct {
-	Id             string    `json:"id", omitempty"`
-	Name           string    `json:"name", omitempty"`
-	IdManufacturer  string    `json:"id_manufacturer", omitempty`
-	ReleaseDate  time.Time `json:"dt_release_date", omitempty`
-	PurchaseDate time.Time `json:"dt_purchase_date", omitempty`
-	Owned          bool      `json:"owned", omitempty`
+	gorm.Model
+	ID             uint     
+	Name           string   
+	ManufacturerID uint     
+	ReleaseDate    time.Time
+	PurchaseDate   time.Time
+	Owned          bool     
+	Games          []Game `gorm:"many2many:game_consoles;"`
 }

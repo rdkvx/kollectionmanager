@@ -1,32 +1,25 @@
 package db
 
 import (
-	"database/sql"
 	"fmt"
 	"os"
 
-	_ "github.com/lib/pq" // Importe o driver PostgreSQL
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
-func Connect() error {
+func Connect() (db *gorm.DB, err error) {
 	if os.Getenv("CONNECTION_STRING") == "" {
 		panic("connection string vazia, carregue as envs")
 	}
 	connStr := os.Getenv("CONNECTION_STRING")
 
-	// Abre a conexão com o banco de dados
-	db, err := sql.Open("postgres", connStr)
-	if err != nil {
-		panic(err)
-	}
-	defer db.Close()
-
-	err = db.Ping()
+	db, err = gorm.Open(postgres.Open(connStr), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}
 
 	fmt.Println("Conexão com o banco de dados estabelecida com sucesso!")
 
-	return nil
+	return db, nil
 }
