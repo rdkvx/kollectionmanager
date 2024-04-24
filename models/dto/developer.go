@@ -1,10 +1,14 @@
 package dto
 
-import "gorm.io/gorm"
+import "time"
 
 type Developer struct {
-	gorm.Model
-	ID   uint 
-	Name string 
-	Games []Game 
+	Name      string
+	CreatedAt time.Time
+	UpdatedAt time.Time
+}
+
+type DeveloperDeleted struct {
+	Name      string
+	DeletedAt time.Time
 }

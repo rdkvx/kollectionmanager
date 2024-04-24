@@ -14,4 +14,5 @@ type Game struct {
 	DeveloperID uint    
 	ReleaseDate time.Time 
 	BoughtDate  time.Time 
+	Deleted bool
 }

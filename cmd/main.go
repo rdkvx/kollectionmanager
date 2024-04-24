@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"kollectionmanager/m/db"
 	"kollectionmanager/m/deployment/migrations"
-	"kollectionmanager/m/models"
 	"kollectionmanager/m/routes"
+	"kollectionmanager/m/utils"
 	"log"
 
 	"github.com/gofiber/fiber/v2"
@@ -15,13 +15,14 @@ import (
 func LoadEnvFromPath(envFilePath string) {
 	err := godotenv.Load(envFilePath)
 	if err != nil {
-		err = fmt.Errorf("cant load env from path: %s, err {%+v}", envFilePath, err)
+		err = utils.LoadEnvErr(envFilePath, err)
 		log.Fatal(err)
 	}
 }
 
 func main() {
-	LoadEnvFromPath("/home/rdkvx/documents/_projects/KollectionManager/.env")
+	//carrega as envs em modo debug
+	LoadEnvFromPath(utils.LoadEnvFromPath)
 	app := fiber.New()
 
 	newDB, err := db.Connect()
@@ -29,24 +30,9 @@ func main() {
 		fmt.Println(err)
 	}
 
-	if !newDB.Migrator().HasTable(&models.Developer{}) {
-		migrations.MigrateIfExists(newDB)
-		fmt.Println("migration executed successfully")
-	}
-	
+	migrations.MigrateIfExists(newDB)
+	routes.Router(app, newDB)
 
-	routes.ConsoleRoutes(app, newDB)
-
-	/* app.Get("/", func(c *fiber.Ctx) error {
-	       return c.SendString("Hello, World 👋!")
-	   })
-
-	   app.Get("/hello/:name", func(c *fiber.Ctx) error {
-	       name := c.Params("name")
-	       return c.SendString(fmt.Sprintf("Hello, %s 👋!", name))
-	   }) */
-
-	fmt.Println("Running")
-
-	app.Listen(":3000")
+	fmt.Println(utils.ServerStatus)
+	app.Listen(utils.Port)
 }
