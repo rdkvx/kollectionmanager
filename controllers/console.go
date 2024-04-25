@@ -2,24 +2,32 @@ package controllers
 
 import (
 	"kollectionmanager/m/models"
-	"kollectionmanager/m/services"
+	"strings"
 
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 )
 
 func GetConsoles(c *fiber.Ctx, db *gorm.DB) ([]models.Console, error) {
-	/* consoles := models.Console{}
+	var console []models.Console
 
-	if err := c.BodyParser(&consoles); err != nil {
-		return err
-	} */
+	result := db.Find(&console)
 
-	consoles, err := services.GetConsoles(db)
-	if err != nil {
-		consolenil := []models.Console{}
-		return consolenil, err
+	if result.Error != nil {
+		return nil, result.Error
 	}
 
-	return consoles, nil
+	return console, nil
+}
+
+func CreateConsole(console models.Console, db *gorm.DB) error {
+	console.Name = strings.ToLower(console.Name)
+	console.Deleted = false
+
+	result := db.Create(&console)
+	if result.Error != nil {
+		return result.Error
+	}
+
+	return nil
 }

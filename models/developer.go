@@ -4,8 +4,7 @@ import "gorm.io/gorm"
 
 type Developer struct {
 	gorm.Model
-	ID   uint 
-	Name string 
+	Name string  `gorm:"not null;unique"`
 	Deleted bool
 	Games []Game 
 }

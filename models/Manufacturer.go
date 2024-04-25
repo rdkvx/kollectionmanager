@@ -8,8 +8,7 @@ import (
 
 type Manufacturer struct {
 	gorm.Model
-	ID       uint
-	Name     string
+	Name     string `gorm:"not null;unique"`
 	Founded  time.Time
 	Deleted bool
 	Consoles []Console

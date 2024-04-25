@@ -4,8 +4,12 @@ import (
 	"time"
 )
 
-type Manufacturer struct {
+type ManufacturerGet struct {
 	Name     string
 	Founded  time.Time
-	Consoles []Console
+}
+
+type ManufacturerPost struct {
+	Name     string
+	Founded  string
 }
