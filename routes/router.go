@@ -9,7 +9,7 @@ func Router(app *fiber.App, db *gorm.DB) error {
 
 	ConsoleRoutes(app, db)
 	DeveloperRoutes(app, db)
-	/* ManufacturerRoutes(app, db)
-	GameRoutes(app, db) */
+	ManufacturerRoutes(app, db)
+	GameRoutes(app, db)
 	return nil
 }

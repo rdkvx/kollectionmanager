@@ -8,9 +8,8 @@ import (
 
 type Console struct {
 	gorm.Model
-	ID             uint
-	Name           string
-	ManufacturerID uint
+	Name           string `gorm:"not null;unique"`
+	ManufacturerID uint `gorm:"not null;"`
 	ReleaseDate    time.Time
 	PurchaseDate   time.Time
 	Owned          bool

@@ -3,6 +3,7 @@ package migrations
 import (
 	"fmt"
 	"kollectionmanager/m/models"
+	"kollectionmanager/m/utils"
 
 	"gorm.io/gorm"
 )
@@ -13,6 +14,6 @@ func MigrateIfExists(db *gorm.DB) {
 		db.AutoMigrate(&models.Console{})
 		db.AutoMigrate(&models.Developer{})
 		db.AutoMigrate(&models.Game{})
-		fmt.Println("migration executed successfully")
+		fmt.Println(utils.MigrationsSuccess)
 	}
 }

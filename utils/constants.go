@@ -7,6 +7,9 @@ import (
 
 const (
 	CheckTheName = "check the name"
+	ConnStrErr = "invalid connection string, load envs"
+	ConnectionString = "CONNECTION_STRING"
+	DbConnectionSuccess = "db connection succeeded"
 	LoadEnvFromPath = "/home/rdkvx/documents/_projects/KollectionManager/.env"
 	Port            = ":3000"
 	ServerStatus    = "Running"
@@ -14,6 +17,7 @@ const (
 	FilterByDeleted = "deleted = ?"
 	DevUpdatedSuccess = "developer updated successfully"
 	DevDeletedSuccess = "developer deleted successfully"
+	MigrationsSuccess = "migration executed successfully"
 )
 
 func LoadEnvErr(envFilePath string, err error) error{

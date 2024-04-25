@@ -8,11 +8,10 @@ import (
 
 type Game struct {
 	gorm.Model
-	ID          uint    
-	Name        string    
-	ConsoleID   uint    
-	DeveloperID uint    
-	ReleaseDate time.Time 
-	BoughtDate  time.Time 
-	Deleted bool
+	Name        string `gorm:"not null;unique"`
+	ConsoleID   uint `gorm:"not null"`
+	DeveloperID uint `gorm:"not null"`
+	ReleaseDate time.Time
+	BoughtDate  time.Time
+	Deleted     bool
 }

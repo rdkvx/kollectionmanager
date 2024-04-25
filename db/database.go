@@ -2,6 +2,7 @@ package db
 
 import (
 	"fmt"
+	"kollectionmanager/m/utils"
 	"os"
 
 	"gorm.io/driver/postgres"
@@ -9,17 +10,17 @@ import (
 )
 
 func Connect() (db *gorm.DB, err error) {
-	if os.Getenv("CONNECTION_STRING") == "" {
-		panic("connection string vazia, carregue as envs")
+	if os.Getenv(utils.ConnectionString) == "" {
+		panic(utils.ConnStrErr)
 	}
-	connStr := os.Getenv("CONNECTION_STRING")
+	connStr := os.Getenv(utils.ConnectionString)
 
 	db, err = gorm.Open(postgres.Open(connStr), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Println("Conexão com o banco de dados estabelecida com sucesso!")
+	fmt.Println(utils.DbConnectionSuccess)
 
 	return db, nil
 }

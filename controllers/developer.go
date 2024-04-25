@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"kollectionmanager/m/models"
 	"kollectionmanager/m/models/dto"
-	"strings"
 	"kollectionmanager/m/utils"
+	"strings"
 
 	"gorm.io/gorm"
 )
@@ -37,9 +37,6 @@ func GetDevelopers(db *gorm.DB) ([]dto.Developer, error) {
 		if !dev.Deleted {
 			var devtemp dto.Developer
 			devtemp.Name = dev.Name
-			devtemp.CreatedAt = dev.CreatedAt
-			devtemp.UpdatedAt = dev.UpdatedAt
-
 			devs = append(devs, devtemp)
 		}
 	}
@@ -61,8 +58,6 @@ func GetDeveloperByName(name string, db *gorm.DB) (dto.Developer, error) {
 
 	var dev dto.Developer
 	dev.Name = devRaw.Name
-	dev.CreatedAt = devRaw.CreatedAt
-	dev.UpdatedAt = devRaw.UpdatedAt
 
 	return dev, nil
 }

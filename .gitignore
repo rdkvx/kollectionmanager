@@ -1,2 +1,3 @@
 deployment/postgree-dockercompose.yml
 .env
+.env
