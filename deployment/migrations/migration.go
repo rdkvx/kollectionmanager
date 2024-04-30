@@ -4,12 +4,14 @@ import (
 	"fmt"
 	"kollectionmanager/m/models"
 	"kollectionmanager/m/utils"
+	"os"
 
 	"gorm.io/gorm"
 )
 
 func MigrateIfExists(db *gorm.DB) {
-	if !db.Migrator().HasTable(&models.Developer{}) {
+
+	if os.Getenv("MIGRATIONUP") == "TRUE" {
 		db.AutoMigrate(&models.Manufacturer{})
 		db.AutoMigrate(&models.Console{})
 		db.AutoMigrate(&models.Developer{})
