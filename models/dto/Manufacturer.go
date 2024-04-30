@@ -5,11 +5,12 @@ import (
 )
 
 type ManufacturerGet struct {
-	Name     string
-	Founded  time.Time
+	ID      uint
+	Name    string
+	Founded time.Time
 }
 
 type ManufacturerPost struct {
-	Name     string
-	Founded  string
+	Name    string
+	Founded string
 }

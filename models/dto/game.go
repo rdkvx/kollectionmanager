@@ -5,6 +5,7 @@ import (
 )
 
 type Game struct {
+	ID          uint
 	Name        string
 	ConsoleID   uint
 	DeveloperID uint

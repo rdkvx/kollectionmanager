@@ -4,11 +4,20 @@ import (
 	"time"
 )
 
-type Console struct {
+type ConsoleGet struct {
+	ID             uint
 	Name           string
 	ManufacturerID uint
-	ReleaseDate    time.Time
-	PurchaseDate   time.Time
+	DtRelease    time.Time
+	DtPurchase   time.Time
 	Owned          bool
 	Games          []Game
+}
+
+type ConsolePost struct {
+	Name           string
+	ManufacturerID uint
+	DtRelease    string
+	DtPurchase   string
+	Owned          bool
 }

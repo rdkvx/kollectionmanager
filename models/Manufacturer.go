@@ -10,6 +10,6 @@ type Manufacturer struct {
 	gorm.Model
 	Name     string `gorm:"not null;unique"`
 	Founded  time.Time
-	Deleted bool
+	Deleted  bool `gorm:"not null;"`
 	Consoles []Console
 }
