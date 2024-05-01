@@ -8,16 +8,16 @@ type ConsoleGet struct {
 	ID             uint
 	Name           string
 	ManufacturerID uint
-	DtRelease    time.Time
-	DtPurchase   time.Time
+	DtRelease      time.Time
+	DtPurchase     time.Time
 	Owned          bool
-	Games          []Game
+	Games          []GameGet
 }
 
 type ConsolePost struct {
 	Name           string
 	ManufacturerID uint
-	DtRelease    string
-	DtPurchase   string
+	DtRelease      string
+	DtPurchase     string
 	Owned          bool
 }

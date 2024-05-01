@@ -11,9 +11,8 @@ import (
 	"gorm.io/gorm"
 )
 
-func CreateDeveloper(developer models.Developer, db *gorm.DB) error {
-	developer.Name = strings.ToLower(developer.Name)
-	developer.Deleted = false
+func CreateDeveloper(developerRaw dto.DeveloperPost, db *gorm.DB) error {
+	developer := utils.DeveloperDtoToModel(developerRaw)
 	result := db.Create(&developer)
 
 	if result.Error != nil {
@@ -23,7 +22,7 @@ func CreateDeveloper(developer models.Developer, db *gorm.DB) error {
 	return nil
 }
 
-func GetDevelopers(db *gorm.DB) ([]dto.Developer, error) {
+func GetDevelopers(db *gorm.DB) ([]dto.DeveloperGet, error) {
 	var devsRaw []models.Developer
 
 	result := db.Find(&devsRaw)
@@ -31,11 +30,12 @@ func GetDevelopers(db *gorm.DB) ([]dto.Developer, error) {
 		return nil, result.Error
 	}
 
-	var devs []dto.Developer
+	var devs []dto.DeveloperGet
 
 	for _, dev := range devsRaw {
 		if !dev.Deleted {
-			var devtemp dto.Developer
+			var devtemp dto.DeveloperGet
+			devtemp.ID = dev.ID
 			devtemp.Name = dev.Name
 			devs = append(devs, devtemp)
 		}
@@ -44,25 +44,25 @@ func GetDevelopers(db *gorm.DB) ([]dto.Developer, error) {
 	return devs, nil
 }
 
-func GetDeveloperByName(name string, db *gorm.DB) (dto.Developer, error) {
+func GetDeveloperByName(name string, db *gorm.DB) (dto.DeveloperGet, error) {
 	var devRaw models.Developer
 
 	result := db.Where(utils.FilterByName, strings.ToLower(name)).First(&devRaw)
 	if result.Error != nil {
-		return dto.Developer{}, result.Error
+		return dto.DeveloperGet{}, result.Error
 	}
 
 	if devRaw.Deleted {
-		return dto.Developer{}, errors.New(utils.FailedTo("find", "developer", name))
+		return dto.DeveloperGet{}, errors.New(utils.FailedTo("find", "developer", name))
 	}
 
-	var dev dto.Developer
+	var dev dto.DeveloperGet
 	dev.Name = devRaw.Name
 
 	return dev, nil
 }
 
-func UpdateDeveloperByName(name string, developer dto.Developer, db *gorm.DB) error {
+func UpdateDeveloperByName(name string, developer dto.DeveloperPost, db *gorm.DB) error {
 
 	name = strings.ToLower(name)
 	developer.Name = strings.ToLower(developer.Name)
