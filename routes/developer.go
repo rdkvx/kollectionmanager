@@ -3,9 +3,9 @@ package routes
 import (
 	"fmt"
 	"kollectionmanager/m/controllers"
-	"kollectionmanager/m/models"
 	"kollectionmanager/m/models/dto"
 	"kollectionmanager/m/utils"
+
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 )
@@ -41,12 +41,12 @@ func DeveloperRoutes(app *fiber.App, db *gorm.DB) {
 
 	//create a developer
 	developersRoute.Post("/", func(c *fiber.Ctx) error {
-		developer := models.Developer{}
+		developer := dto.DeveloperPost{}
 
 		if err := c.BodyParser(&developer); err != nil {
 			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-                "error": err.Error(),
-            })
+				"error": err.Error(),
+			})
 		}
 
 		fmt.Println(developer)
@@ -54,8 +54,8 @@ func DeveloperRoutes(app *fiber.App, db *gorm.DB) {
 		err := controllers.CreateDeveloper(developer, db)
 		if err != nil {
 			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-                "error": err.Error(),
-            })
+				"error": err.Error(),
+			})
 		}
 
 		return c.SendStatus(201)
@@ -64,7 +64,7 @@ func DeveloperRoutes(app *fiber.App, db *gorm.DB) {
 	//update a developer by name
 	developersRoute.Patch("/:name", func(c *fiber.Ctx) error {
 		name := c.Params("name")
-		developer := dto.Developer{}
+		developer := dto.DeveloperPost{}
 
 		if err := c.BodyParser(&developer); err != nil {
 			return err

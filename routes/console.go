@@ -1,8 +1,10 @@
 package routes
 
 import (
+	"errors"
 	"kollectionmanager/m/controllers"
 	"kollectionmanager/m/models/dto"
+	"kollectionmanager/m/utils"
 
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
@@ -15,7 +17,9 @@ func ConsoleRoutes(app *fiber.App, db *gorm.DB) {
 	consolesroute.Get("/", func(c *fiber.Ctx) error {
 		consoles, err := controllers.GetConsoles(c, db)
 		if err != nil {
-            return c.SendStatus(500)
+            return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+                "error": err.Error(),
+            })
         }
 
 		return c.JSON(consoles)
@@ -27,7 +31,9 @@ func ConsoleRoutes(app *fiber.App, db *gorm.DB) {
 
         console, err := controllers.GetConsoleByName(name, db)
         if err != nil {
-            return c.SendStatus(500)
+            return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+                "error": err.Error(),
+            })
         }
 
         return c.JSON(console)
@@ -52,6 +58,7 @@ func ConsoleRoutes(app *fiber.App, db *gorm.DB) {
         return c.SendStatus(201)
 	})
 
+    //update a console by name
 	consolesroute.Patch("/:name", func(c *fiber.Ctx) error {
 		name := c.Params("name")
         console := dto.ConsolePost{}
@@ -61,6 +68,11 @@ func ConsoleRoutes(app *fiber.App, db *gorm.DB) {
         }
 
         if err := controllers.UpdateConsole(name, console, db); err != nil {
+            if err == errors.New(utils.FailedTo("find", "console", name)){
+				return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+                    "error": err.Error(),
+                })
+			}
             return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
                 "error": err.Error(),
             })
@@ -69,10 +81,11 @@ func ConsoleRoutes(app *fiber.App, db *gorm.DB) {
         return c.SendStatus(201)
 	})
 
+    //delete a console by name
 	consolesroute.Delete("/:name", func(c *fiber.Ctx) error {
 		name := c.Params("name")
 
-        if err := controllers.DeleteConsole(name, db); err != nil {
+        if err := controllers.SoftDeleteConsoleByName(name, db); err != nil {
             return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
                 "error": err.Error(),
             })

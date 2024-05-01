@@ -1,13 +1,10 @@
 package dto
 
-import "time"
-
-type Developer struct {
+type DeveloperGet struct {
+	ID   uint
 	Name string
 }
 
-type DeveloperDeleted struct {
-	ID        uint
-	Name      string
-	DeletedAt time.Time
+type DeveloperPost struct {
+	Name string
 }
